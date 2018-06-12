@@ -1,19 +1,15 @@
 package app.javache;
 
 public final class WebConstants {
+    private static final String WEB_SERVER_PACKAGE_PATH = "/app/javache/";
+
     public static final Integer DEFAULT_SERVER_PORT = 8000;
 
     public static final String SERVER_HTTP_VERSION = "HTTP/1.1";
 
-    public static final String RESOURCE_FOLDER_PATH =
-            System.getProperty("user.dir")
-            + "\\src\\org\\softuni\\resources\\";
-
-    public static final String ASSETS_FOLDER_PATH =
-            RESOURCE_FOLDER_PATH + "assets\\";
-
-    public static final String PAGES_FOLDER_PATH =
-            RESOURCE_FOLDER_PATH + "pages\\";
+    public static final String SERVER_ROOT_FOLDER_PATH = Server.class
+            .getResource("").toString()
+            .replace("file:/", "").replace(WEB_SERVER_PACKAGE_PATH, "/");
 
     private WebConstants() { }
 }
