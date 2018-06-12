@@ -22,10 +22,9 @@ public class Server {
 
     private Set<RequestHandler> requestHandlers;
 
-    public Server(int port, Set<RequestHandler> requestHandlers) {
+    public Server(int port) {
         this.port = port;
         this.timeouts = 0;
-        this.requestHandlers = requestHandlers;
     }
 
     public void run() throws IOException {

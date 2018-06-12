@@ -17,7 +17,7 @@ public class StartUp {
             port = Integer.parseInt(args[1]);
         }
 
-        Server server = new Server(port, null);
+        Server server = new Server(port);
 
         try {
             server.run();

@@ -1,8 +1,6 @@
 package app.javache;
 
 import app.javache.api.RequestHandler;
-import app.javache.io.Reader;
-import app.javache.io.Writer;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -38,32 +36,19 @@ public class ConnectionHandler extends Thread {
         }
     }
 
+    private void processClientConnection() {
+        for (RequestHandler requestHandler : this.requestHandlers) {
+            requestHandler.handleRequest(this.clientSocketInputStream, this.clientSocketOutputStream);
+
+            if (requestHandler.hasIntercepted()) break;
+        }
+
+    }
+
     @Override
     public void run() {
         try {
-            String requestContent = null;
-
-            int connectionReadTimer = 0;
-
-            while(connectionReadTimer++ < CONNECTION_KILL_LIMIT) {
-                requestContent = Reader.readAllLines(this.clientSocketInputStream);
-
-                if(requestContent.length() > 0) break;
-            }
-
-            if(requestContent == null || requestContent.length() < 1) {
-                throw new NullPointerException(REQUEST_CONTENT_LOADING_FAILURE_EXCEPTION_MESSAGE);
-            }
-
-            byte[] responseContent = null;
-
-            for (RequestHandler requestHandler : this.requestHandlers) {
-                responseContent = requestHandler.handleRequest(requestContent);
-
-                if(requestHandler.hasIntercepted()) break;
-            }
-
-            Writer.writeBytes(responseContent, this.clientSocketOutputStream);
+            this.processClientConnection();
             this.clientSocketInputStream.close();
             this.clientSocketOutputStream.close();
             this.clientSocket.close();
