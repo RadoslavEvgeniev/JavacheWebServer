@@ -1,6 +1,8 @@
 package app.javache;
 
 import app.javache.api.RequestHandler;
+import app.javache.util.JavacheConfigService;
+import app.javache.util.RequestHandlerLoadingService;
 
 import java.io.*;
 import java.net.*;
@@ -20,11 +22,17 @@ public class Server {
 
     private ServerSocket server;
 
+    private JavacheConfigService javacheConfigService;
+
+    private RequestHandlerLoadingService requestHandlerLoadingService;
+
     private Set<RequestHandler> requestHandlers;
 
     public Server(int port) {
         this.port = port;
         this.timeouts = 0;
+        this.javacheConfigService = new JavacheConfigService();
+        this.requestHandlerLoadingService = new RequestHandlerLoadingService();
     }
 
     public void run() throws IOException {
