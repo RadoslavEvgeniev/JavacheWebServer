@@ -1,7 +1,7 @@
 package app.javache;
 
 public final class WebConstants {
-    private static final String WEB_SERVER_PACKAGE_PATH = "/app/javache/";
+    private static final String WEB_SERVER_PACKAGE_PATH = "/src/app/javache/";
 
     public static final Integer DEFAULT_SERVER_PORT = 8000;
 

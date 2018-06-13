@@ -1,0 +1,17 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="javache">
+    <output-path>$PROJECT_DIR$/out/artifacts/javache</output-path>
+    <root id="archive" name="javache.jar">
+      <element id="directory" name="app">
+        <element id="directory" name="javache">
+          <element id="directory" name="api">
+            <element id="dir-copy" path="$PROJECT_DIR$/target/classes/app/javache/api" />
+          </element>
+          <element id="directory" name="http">
+            <element id="dir-copy" path="$PROJECT_DIR$/target/classes/app/javache/http" />
+          </element>
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>

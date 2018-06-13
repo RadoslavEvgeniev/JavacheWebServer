@@ -26,13 +26,16 @@ public class Server {
 
     private RequestHandlerLoadingService requestHandlerLoadingService;
 
-    private Set<RequestHandler> requestHandlers;
-
     public Server(int port) {
         this.port = port;
         this.timeouts = 0;
         this.javacheConfigService = new JavacheConfigService();
         this.requestHandlerLoadingService = new RequestHandlerLoadingService();
+        this.initRequestHandlers();
+    }
+
+    private void initRequestHandlers() {
+        this.requestHandlerLoadingService.loadRequestHandlers(this.javacheConfigService.getRequestHandlerPriority());
     }
 
     public void run() throws IOException {
@@ -41,16 +44,16 @@ public class Server {
 
         this.server.setSoTimeout(SOCKET_TIMEOUT_MILLISECONDS);
 
-        while(true) {
-            try(Socket clientSocket = this.server.accept()) {
+        while (true) {
+            try (Socket clientSocket = this.server.accept()) {
                 clientSocket.setSoTimeout(SOCKET_TIMEOUT_MILLISECONDS);
 
                 ConnectionHandler connectionHandler
-                        = new ConnectionHandler(clientSocket, this.requestHandlers);
+                        = new ConnectionHandler(clientSocket, this.requestHandlerLoadingService.getRequestHandlers());
 
                 FutureTask<?> task = new FutureTask<>(connectionHandler, null);
                 task.run();
-            } catch(SocketTimeoutException e) {
+            } catch (SocketTimeoutException e) {
                 System.out.println(TIMEOUT_DETECTION_MESSAGE);
                 this.timeouts++;
             }
