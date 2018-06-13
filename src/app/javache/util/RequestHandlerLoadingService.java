@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 public class RequestHandlerLoadingService {
 
-    private static final String LIB_FOLDER_PATH = WebConstants.SERVER_ROOT_FOLDER_PATH + "lib/";
+    private static final String LIB_FOLDER_PATH = WebConstants.SERVER_ROOT_FOLDER_PATH.replace("app/javache/", "lib/");
 
     private Set<RequestHandler> requestHandlers;
 
