@@ -1,5 +1,6 @@
 package app.javache;
 
+import app.javache.util.InputStreamCachingService;
 import app.javache.util.JavacheConfigService;
 import app.javache.util.LoggingService;
 import app.javache.util.RequestHandlerLoadingService;
@@ -55,14 +56,11 @@ public class Server {
                 clientSocket.setSoTimeout(SOCKET_TIMEOUT_MILLISECONDS);
 
                 ConnectionHandler connectionHandler
-                        = new ConnectionHandler(clientSocket, this.requestHandlerLoadingService.getRequestHandlers());
+                        = new ConnectionHandler(clientSocket, this.requestHandlerLoadingService.getRequestHandlers(), this.loggingService);
 
                 FutureTask<?> task = new FutureTask<>(connectionHandler, null);
-                try {
-                    task.run();
-                } catch (Exception e) {
-                    this.loggingService.error(e.getMessage());
-                }
+
+                task.run();
             } catch (SocketTimeoutException e) {
                 this.loggingService.warning(TIMEOUT_DETECTION_MESSAGE);
                 this.timeouts++;

@@ -1,6 +1,8 @@
 package app.javache;
 
 import app.javache.api.RequestHandler;
+import app.javache.util.InputStreamCachingService;
+import app.javache.util.LoggingService;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,9 +11,6 @@ import java.net.Socket;
 import java.util.Set;
 
 public class ConnectionHandler extends Thread {
-    private static final int CONNECTION_KILL_LIMIT = 5000;
-
-    private static final String REQUEST_CONTENT_LOADING_FAILURE_EXCEPTION_MESSAGE = "Failed loading request content.";
 
     private Socket clientSocket;
 
@@ -19,11 +18,17 @@ public class ConnectionHandler extends Thread {
 
     private OutputStream clientSocketOutputStream;
 
+    private InputStreamCachingService cachingService;
+
     private Set<RequestHandler> requestHandlers;
 
-    public ConnectionHandler(Socket clientSocket, Set<RequestHandler> requestHandlers) {
+    private LoggingService loggingService;
+
+    public ConnectionHandler(Socket clientSocket, Set<RequestHandler> requestHandlers, LoggingService loggingService) {
         this.initializeConnection(clientSocket);
         this.requestHandlers = requestHandlers;
+        this.cachingService = new InputStreamCachingService();
+        this.loggingService = loggingService;
     }
 
     private void initializeConnection(Socket clientSocket) {
@@ -32,13 +37,13 @@ public class ConnectionHandler extends Thread {
             this.clientSocketInputStream = this.clientSocket.getInputStream();
             this.clientSocketOutputStream = this.clientSocket.getOutputStream();
         } catch (IOException e) {
-            e.printStackTrace();
+            this.loggingService.error(e.getMessage());
         }
     }
 
-    private void processClientConnection() {
+    private void processClientConnection() throws IOException {
         for (RequestHandler requestHandler : this.requestHandlers) {
-            requestHandler.handleRequest(this.clientSocketInputStream, this.clientSocketOutputStream);
+            requestHandler.handleRequest(this.cachingService.getOrCacheInputStream(this.clientSocketInputStream), this.clientSocketOutputStream);
 
             if (requestHandler.hasIntercepted()) break;
         }
@@ -52,6 +57,7 @@ public class ConnectionHandler extends Thread {
             this.clientSocketInputStream.close();
             this.clientSocketOutputStream.close();
             this.clientSocket.close();
+            this.cachingService.evictCache();
         } catch (IOException e) {
             e.printStackTrace();
         }
