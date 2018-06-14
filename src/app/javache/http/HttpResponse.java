@@ -7,33 +7,33 @@ import java.util.HashMap;
 
 public interface HttpResponse {
     enum ResponseLines {
-        OK (WebConstants.SERVER_HTTP_VERSION
+        OK(WebConstants.SERVER_HTTP_VERSION
                 + " "
                 + HttpStatus.OK.getStatusPhrase()),
-        CREATED (WebConstants.SERVER_HTTP_VERSION
+        CREATED(WebConstants.SERVER_HTTP_VERSION
                 + " "
                 + HttpStatus.CREATED.getStatusPhrase()),
-        NO_CONTENT (WebConstants.SERVER_HTTP_VERSION
+        NO_CONTENT(WebConstants.SERVER_HTTP_VERSION
                 + " "
                 + HttpStatus.NO_CONTENT.getStatusPhrase()),
-        SEE_OTHER (WebConstants.SERVER_HTTP_VERSION
+        SEE_OTHER(WebConstants.SERVER_HTTP_VERSION
                 + " "
                 + HttpStatus.SEE_OTHER.getStatusPhrase()),
-        BAD_REQUEST (WebConstants.SERVER_HTTP_VERSION
+        BAD_REQUEST(WebConstants.SERVER_HTTP_VERSION
                 + " "
                 + HttpStatus.BAD_REQUEST.getStatusPhrase()),
-        UNAUTHORIZED (WebConstants.SERVER_HTTP_VERSION
+        UNAUTHORIZED(WebConstants.SERVER_HTTP_VERSION
                 + " "
                 + HttpStatus.UNAUTHORIZED.getStatusPhrase()),
-        FORBIDDEN (WebConstants.SERVER_HTTP_VERSION
+        FORBIDDEN(WebConstants.SERVER_HTTP_VERSION
                 + " "
                 + HttpStatus.FORBIDDEN.getStatusPhrase()),
-        NOT_FOUND (WebConstants.SERVER_HTTP_VERSION
-                        + " "
-                        + HttpStatus.NOT_FOUND.getStatusPhrase()),
-        INTERNAL_SERVER_ERROR (WebConstants.SERVER_HTTP_VERSION
-                        + " "
-                        + HttpStatus.INTERNAL_SERVER_ERROR.getStatusPhrase());
+        NOT_FOUND(WebConstants.SERVER_HTTP_VERSION
+                + " "
+                + HttpStatus.NOT_FOUND.getStatusPhrase()),
+        INTERNAL_SERVER_ERROR(WebConstants.SERVER_HTTP_VERSION
+                + " "
+                + HttpStatus.INTERNAL_SERVER_ERROR.getStatusPhrase());
 
         private String value;
 

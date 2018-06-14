@@ -17,7 +17,9 @@ public enum HttpStatus {
         this.setStatusPhrase(statusPhrase);
     }
 
-    public int getStatusCode() { return Integer.parseInt(this.statusPhrase.split(" ")[0]);}
+    public int getStatusCode() {
+        return Integer.parseInt(this.statusPhrase.split(" ")[0]);
+    }
 
     public String getStatusPhrase() {
         return this.statusPhrase;

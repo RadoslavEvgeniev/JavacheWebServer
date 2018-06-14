@@ -14,7 +14,7 @@ public class HttpSessionStorageImpl implements HttpSessionStorage {
     }
 
     public HttpSession getById(String sessionId) {
-        if(!this.allSessions.containsKey(sessionId)) {
+        if (!this.allSessions.containsKey(sessionId)) {
             return null;
         }
 
@@ -29,7 +29,7 @@ public class HttpSessionStorageImpl implements HttpSessionStorage {
         List<String> idsToRemove = new ArrayList<>();
 
         for (HttpSession session : this.allSessions.values()) {
-            if(!session.isValid()) {
+            if (!session.isValid()) {
                 idsToRemove.add(session.getId());
             }
         }

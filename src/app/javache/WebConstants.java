@@ -11,5 +11,6 @@ public final class WebConstants {
             .getResource("").toString()
             .replace("file:/", "").replace(WEB_SERVER_PACKAGE_PATH, "/");
 
-    private WebConstants() { }
+    private WebConstants() {
+    }
 }

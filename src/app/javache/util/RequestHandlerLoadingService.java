@@ -48,7 +48,7 @@ public class RequestHandlerLoadingService {
             JarEntry currentEntry = jarFileEntries.nextElement();
 
             if (!currentEntry.isDirectory() && currentEntry.getName().endsWith(".class")) {
-                URL[] urls = new URL[] {new URL("jar:file:" + cannonicalPath + "!/")};
+                URL[] urls = new URL[]{new URL("jar:file:" + cannonicalPath + "!/")};
 
                 URLClassLoader ucl = new URLClassLoader(urls);
 

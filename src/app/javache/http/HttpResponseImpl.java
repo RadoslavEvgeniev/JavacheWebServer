@@ -24,11 +24,11 @@ public class HttpResponseImpl implements HttpResponse {
         StringBuilder result = new StringBuilder()
                 .append(ResponseLines.getResponseLine(this.getStatusCode().getStatusCode())).append(System.lineSeparator());
 
-        for (Map.Entry<String,String> header : this.getHeaders().entrySet()) {
+        for (Map.Entry<String, String> header : this.getHeaders().entrySet()) {
             result.append(header.getKey()).append(": ").append(header.getValue()).append(System.lineSeparator());
         }
 
-        if(!this.cookies.isEmpty()) {
+        if (!this.cookies.isEmpty()) {
             result.append("Set-Cookie: ");
 
             for (HttpCookie cookie : this.cookies.values()) {
