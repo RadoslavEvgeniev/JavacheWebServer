@@ -5,6 +5,10 @@ import app.javache.api.RequestHandler;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.*;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
@@ -31,21 +35,35 @@ public class RequestHandlerLoadingService {
         return file.isFile() && file.getName().endsWith(".jar");
     }
 
-    private void loadRequestHandler() {
+    private void loadRequestHandler(Class<?> requestHandlerClass) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+        RequestHandler requestHandler = (RequestHandler) requestHandlerClass.getDeclaredConstructor().newInstance();
 
+        this.requestHandlers.add(requestHandler);
     }
 
-    private void loadJarFile(JarFile jarFile) {
+    private void loadJarFile(String cannonicalPath, JarFile jarFile) throws MalformedURLException, ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
         Enumeration<JarEntry> jarFileEntries = jarFile.entries();
 
         while (jarFileEntries.hasMoreElements()) {
             JarEntry currentEntry = jarFileEntries.nextElement();
 
-            System.out.println(currentEntry.getName());
+            if (!currentEntry.isDirectory() && currentEntry.getName().endsWith(".class")) {
+                URL[] urls = new URL[] {new URL("jar:file:" + cannonicalPath + "!/")};
+
+                URLClassLoader ucl = new URLClassLoader(urls);
+
+                String className = currentEntry.getName().replace(".class", "").replace("/", ".");
+
+                Class currentClassFile = ucl.loadClass(className);
+
+                if (RequestHandler.class.isAssignableFrom(currentClassFile)) {
+                    this.loadRequestHandler(currentClassFile);
+                }
+            }
         }
     }
 
-    private void loadLibraryFiles(Set<String> requestHandlerPriority) throws IOException {
+    private void loadLibraryFiles(Set<String> requestHandlerPriority) throws IOException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         File libraryFolder = new File(LIB_FOLDER_PATH);
 
         if (!libraryFolder.exists() || !libraryFolder.isDirectory()) {
@@ -56,12 +74,12 @@ public class RequestHandlerLoadingService {
         List<File> allJarFiles = Arrays.stream(libraryFolder.listFiles()).filter(f -> this.isJarFile(f)).collect(Collectors.toList());
 
         for (String currentRequestHandlerName : requestHandlerPriority) {
-            File currentJarFile = allJarFiles
+            File jarFile = allJarFiles
                     .stream().filter(f -> this.getFileNameWithoutExtension(f).equals(currentRequestHandlerName)).findFirst().orElse(null);
 
-            if (currentJarFile != null) {
-                JarFile jarFile = new JarFile(currentJarFile.getCanonicalPath());
-                this.loadJarFile(jarFile);
+            if (jarFile != null) {
+                JarFile fileAsJar = new JarFile(jarFile.getCanonicalPath());
+                this.loadJarFile(jarFile.getCanonicalPath(), fileAsJar);
             }
         }
     }
@@ -71,7 +89,7 @@ public class RequestHandlerLoadingService {
 
         try {
             this.loadLibraryFiles(requestHandlerPriority);
-        } catch (IOException e) {
+        } catch (IOException | ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
             e.printStackTrace();
         }
     }

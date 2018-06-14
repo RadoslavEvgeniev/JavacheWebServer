@@ -10,6 +10,9 @@
           <element id="directory" name="http">
             <element id="dir-copy" path="$PROJECT_DIR$/target/classes/app/javache/http" />
           </element>
+          <element id="directory" name="io">
+            <element id="dir-copy" path="$PROJECT_DIR$/target/classes/app/javache/io" />
+          </element>
         </element>
       </element>
     </root>
