@@ -84,13 +84,10 @@ public class RequestHandlerLoadingService {
         }
     }
 
-    public void loadRequestHandlers(Set<String> requestHandlerPriority) {
+    public void loadRequestHandlers(Set<String> requestHandlerPriority) throws NoSuchMethodException, IOException, InstantiationException, IllegalAccessException, InvocationTargetException, ClassNotFoundException {
         this.requestHandlers = new LinkedHashSet<>();
 
-        try {
-            this.loadLibraryFiles(requestHandlerPriority);
-        } catch (IOException | ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
-            e.printStackTrace();
-        }
+        this.loadLibraryFiles(requestHandlerPriority);
+
     }
 }
