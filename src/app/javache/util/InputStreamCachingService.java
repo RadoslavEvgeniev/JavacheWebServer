@@ -19,8 +19,16 @@ public class InputStreamCachingService {
     public InputStream getOrCacheInputStream(InputStream inputStream) throws IOException {
         if  (this.content == null) {
             int counter = 0;
-            while (counter++ < 5000 || content == null) {
-                content = Reader.readAllLines(inputStream);
+            while (counter++ < 5000) {
+                content = new Reader().readAllLines(inputStream);
+
+                if (content != null && content.length() > 0) {
+                    break;
+                }
+            }
+
+            if (content == null) {
+                throw new IllegalArgumentException(CONTENT_LOADING_FAILURE_EXCEPTION_MESSAGE);
             }
 
 

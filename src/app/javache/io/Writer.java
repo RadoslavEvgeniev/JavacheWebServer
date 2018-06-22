@@ -3,10 +3,10 @@ package app.javache.io;
 import java.io.*;
 
 public final class Writer {
-    private Writer() {
+    public Writer() {
     }
 
-    public static void writeBytes(byte[] byteData, OutputStream outputStream) throws IOException {
+    public void writeBytes(byte[] byteData, OutputStream outputStream) throws IOException {
         DataOutputStream buffer = new DataOutputStream(outputStream);
 
         buffer.write(byteData);

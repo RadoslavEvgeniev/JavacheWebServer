@@ -24,10 +24,10 @@ public class ConnectionHandler extends Thread {
 
     private LoggingService loggingService;
 
-    public ConnectionHandler(Socket clientSocket, Set<RequestHandler> requestHandlers, LoggingService loggingService) {
+    public ConnectionHandler(Socket clientSocket, Set<RequestHandler> requestHandlers, InputStreamCachingService cachingService,  LoggingService loggingService) {
         this.initializeConnection(clientSocket);
         this.requestHandlers = requestHandlers;
-        this.cachingService = new InputStreamCachingService();
+        this.cachingService = cachingService;
         this.loggingService = loggingService;
     }
 

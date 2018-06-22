@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 public class RequestHandlerLoadingService {
 
-    private static final String LIB_FOLDER_PATH = WebConstants.SERVER_ROOT_FOLDER_PATH.replace("app/javache/", "lib/");
+    private static final String LIB_FOLDER_PATH = WebConstants.SERVER_ROOT_FOLDER_PATH + "lib/";
 
     private Set<RequestHandler> requestHandlers;
 
@@ -28,7 +28,7 @@ public class RequestHandlerLoadingService {
     }
 
     private String getFileNameWithoutExtension(File file) {
-        return file.getName().substring(0, file.getName().indexOf(".")).toString();
+        return file.getName().substring(0, file.getName().indexOf("."));
     }
 
     private boolean isJarFile(File file) {
@@ -36,9 +36,9 @@ public class RequestHandlerLoadingService {
     }
 
     private void loadRequestHandler(Class<?> requestHandlerClass) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
-        RequestHandler requestHandler = (RequestHandler) requestHandlerClass.getDeclaredConstructor().newInstance();
+        RequestHandler requestHandlerObject = (RequestHandler) requestHandlerClass.getDeclaredConstructor(String.class).newInstance(WebConstants.SERVER_ROOT_FOLDER_PATH);
 
-        this.requestHandlers.add(requestHandler);
+        this.requestHandlers.add(requestHandlerObject);
     }
 
     private void loadJarFile(String cannonicalPath, JarFile jarFile) throws MalformedURLException, ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
