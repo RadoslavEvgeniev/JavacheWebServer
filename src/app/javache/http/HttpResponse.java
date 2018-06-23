@@ -4,6 +4,7 @@ import app.javache.WebConstants;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
 
 public interface HttpResponse {
     enum ResponseLines {
@@ -46,7 +47,7 @@ public interface HttpResponse {
         }
     }
 
-    HashMap<String, String> getHeaders();
+    Map<String, String> getHeaders();
 
     HttpStatus getStatusCode();
 

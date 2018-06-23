@@ -1,6 +1,7 @@
 package app.javache.http;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 public class HttpSessionImpl implements HttpSession {
@@ -9,7 +10,7 @@ public class HttpSessionImpl implements HttpSession {
 
     private boolean isValid;
 
-    private HashMap<String, Object> attributes;
+    private Map<String, Object> attributes;
 
     public HttpSessionImpl() {
         this.setId(UUID.randomUUID().toString());
@@ -32,7 +33,7 @@ public class HttpSessionImpl implements HttpSession {
     }
 
     @Override
-    public HashMap<String, Object> getAttributes() {
+    public Map<String, Object> getAttributes() {
         return this.attributes;
     }
 

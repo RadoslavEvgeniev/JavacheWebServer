@@ -6,9 +6,9 @@ import java.util.Map;
 public class HttpResponseImpl implements HttpResponse {
     private HttpStatus statusCode;
 
-    private HashMap<String, String> headers;
+    private Map<String, String> headers;
 
-    private HashMap<String, HttpCookie> cookies;
+    private Map<String, HttpCookie> cookies;
 
     private HttpSession session;
 
@@ -45,7 +45,7 @@ public class HttpResponseImpl implements HttpResponse {
     }
 
     @Override
-    public HashMap<String, String> getHeaders() {
+    public Map<String, String> getHeaders() {
         return this.headers;
     }
 

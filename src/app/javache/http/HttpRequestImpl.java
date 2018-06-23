@@ -3,19 +3,20 @@ package app.javache.http;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class HttpRequestImpl implements HttpRequest {
     private String method;
 
     private String requestUrl;
 
-    private HashMap<String, String> headers;
+    private Map<String, String> headers;
 
-    private HashMap<String, String> queryParameters;
+    private Map<String, String> queryParameters;
 
-    private HashMap<String, String> bodyParameters;
+    private Map<String, String> bodyParameters;
 
-    private HashMap<String, HttpCookie> cookies;
+    private Map<String, HttpCookie> cookies;
 
     private HttpSession session;
 
@@ -112,22 +113,22 @@ public class HttpRequestImpl implements HttpRequest {
     }
 
     @Override
-    public HashMap<String, String> getHeaders() {
+    public Map<String, String> getHeaders() {
         return this.headers;
     }
 
     @Override
-    public HashMap<String, String> getBodyParameters() {
+    public Map<String, String> getBodyParameters() {
         return this.bodyParameters;
     }
 
     @Override
-    public HashMap<String, String> getQueryParameters() {
+    public Map<String, String> getQueryParameters() {
         return this.queryParameters;
     }
 
     @Override
-    public HashMap<String, HttpCookie> getCookies() {
+    public Map<String, HttpCookie> getCookies() {
         return this.cookies;
     }
 
