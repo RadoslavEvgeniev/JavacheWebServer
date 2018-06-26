@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="summer">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/lib/summer.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

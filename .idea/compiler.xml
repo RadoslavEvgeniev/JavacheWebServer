@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="Javache" target="1.8" />
+      <module name="Javache" target="10" />
     </bytecodeTargetLevel>
   </component>
 </project>

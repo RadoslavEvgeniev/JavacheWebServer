@@ -7,9 +7,7 @@ import java.io.IOException;
 
 public class StartUp {
     public static void main(String[] args) {
-        System.out.println(WebConstants.SERVER_ROOT_FOLDER_PATH);
         start(args);
-        //new RequestHandlerLoadingService().loadRequestHandlers(new JavacheConfigService().getRequestHandlerPriority());
     }
 
     private static void start(String[] args) {
