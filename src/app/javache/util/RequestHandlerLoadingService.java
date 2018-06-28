@@ -47,14 +47,16 @@ public class RequestHandlerLoadingService {
         while (jarFileEntries.hasMoreElements()) {
             JarEntry currentEntry = jarFileEntries.nextElement();
 
-            if (!currentEntry.isDirectory() && currentEntry.getName().endsWith(".class")) {
+            if (!currentEntry.isDirectory() && currentEntry.getRealName().endsWith(".class")) {
                 URL[] urls = new URL[]{new URL("jar:file:" + cannonicalPath + "!/")};
 
-                URLClassLoader ucl = new URLClassLoader(urls);
+                URLClassLoader urlClassLoader = new URLClassLoader(urls, Thread.currentThread().getContextClassLoader());
+
+                Thread.currentThread().setContextClassLoader(urlClassLoader);
 
                 String className = currentEntry.getName().replace(".class", "").replace("/", ".");
 
-                Class currentClassFile = ucl.loadClass(className);
+                Class currentClassFile = urlClassLoader.loadClass(className);
 
                 if (RequestHandler.class.isAssignableFrom(currentClassFile)) {
                     this.loadRequestHandler(currentClassFile);
