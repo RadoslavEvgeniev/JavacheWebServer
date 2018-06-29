@@ -89,7 +89,11 @@ public class HttpRequestImpl implements HttpRequest {
                 for (int i = 0; i < bodyParams.size(); i++) {
                     String[] bodyKeyValuePair = bodyParams.get(i).split("\\=");
 
-                    this.addBodyParameter(bodyKeyValuePair[0], bodyKeyValuePair[1]);
+                    if (bodyKeyValuePair.length == 2) {
+                        this.addBodyParameter(bodyKeyValuePair[0], bodyKeyValuePair[1]);
+                    } else if (bodyKeyValuePair.length == 1) {
+                        this.addBodyParameter(bodyKeyValuePair[0], null);
+                    }
                 }
             }
         }
